@@ -43,6 +43,9 @@ import {
   FaCheck,
 } from "react-icons/fa";
 import type { Course } from "@/data/mockData";
+import { useAuth } from "../hooks/useAuth";
+import { getCourses } from "../services/courseService";
+
 
 export default function Dashboard() {
   const [currentView, setCurrentView] = useState("courses");
@@ -57,7 +60,11 @@ export default function Dashboard() {
 
   const { toast } = useToast();
   const { isAuthenticated, isLoading } = useMockAuth();
-  const { courses, isLoading: coursesLoading } = useMockCourses();
+  const { 
+    // courses, 
+    isLoading: 
+    coursesLoading 
+} = useMockCourses();
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -68,6 +75,30 @@ export default function Dashboard() {
       return;
     }
   }, [isAuthenticated, isLoading, toast]);
+
+   const { user } = useAuth();
+  const [courses, setCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    if (user) {
+      getCourses(user.uid).then((data) => {
+        // Ensure the returned data matches the Course type
+        const courses: Course[] = data.map((item: any) => ({
+          id: item.id,
+          semester: item.semester,
+          subjectName: item.subjectName,
+          description: item.description,
+          fileUrl: item.fileUrl,
+          status: item.status,
+          updatedAt: item.updatedAt,
+          createdAt: item.createdAt, // Ensure this exists in your data
+          createdBy: item.createdBy, // Ensure this exists in your data
+          // add any other Course fields as needed
+        }));
+        setCourses(courses);
+      });
+    }
+  }, [user]);
 
   const handleDeleteCourse = (course: Course) => {
     setCourseToDelete({ id: course.id, name: course.subjectName });
