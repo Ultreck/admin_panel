@@ -33,10 +33,10 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
             <Button
               key={item.id}
               variant={currentView === item.id ? "default" : "ghost"}
-              className={`w-full justify-start ${
+              className={`w-full justify-start rounded ${
                 currentView === item.id
-                  ? "bg-primary text-white hover:bg-primary/90"
-                  : "text-gray-600 hover:bg-gray-50"
+                  ? "bg-primary text-white hover:bg-sky-500 rounded bg-sky-600"
+                  : "text-gray-600 hover:bg-gray-50 rounded"
               }`}
               onClick={() => onViewChange(item.id)}
             >

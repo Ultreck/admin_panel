@@ -22,7 +22,7 @@ export interface Course {
 export const mockUser: User = {
   id: '1',
   email: 'admin@pharmacy.edu',
-  firstName: 'Dr. Sarah',
+  firstName: 'Dr. Emmanuel',
   lastName: 'Johnson',
   profileImageUrl: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop&crop=face'
 };

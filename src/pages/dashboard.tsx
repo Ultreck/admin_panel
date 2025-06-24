@@ -165,7 +165,7 @@ export default function Dashboard() {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 min-h-screen overflow-y-auto p-6">
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <Card>
@@ -245,13 +245,13 @@ export default function Dashboard() {
           <Card className="mb-6">
             <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1 relative">
+                <div className="flex-1 relative border-gray-500 rounded-lg">
                   <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <Input
                     placeholder="Search courses..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 rounded"
                   />
                 </div>
                 <div className="flex gap-4">
@@ -259,10 +259,10 @@ export default function Dashboard() {
                     value={semesterFilter}
                     onValueChange={setSemesterFilter}
                   >
-                    <SelectTrigger className="w-48">
+                    <SelectTrigger className="w-48 rounded border-gray-500">
                       <SelectValue placeholder="All Semesters" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-gray-50">
                       <SelectItem value="all">All Semesters</SelectItem>
                       <SelectItem value="1">Semester 1</SelectItem>
                       <SelectItem value="2">Semester 2</SelectItem>
@@ -291,7 +291,7 @@ export default function Dashboard() {
               </h3>
             </div>
 
-            <div className="overflow-y-auto">
+            <div className="overflow-y-auto min-h-screen">
               <Table>
                 <TableHeader>
                   <TableRow>

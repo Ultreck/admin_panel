@@ -54,10 +54,10 @@ export default function DeleteConfirmationModal({
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className="bg-gray-50">
         <AlertDialogHeader>
           <AlertDialogTitle>Delete Course</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogDescription  >
             Are you sure you want to delete "{courseName}"? This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
