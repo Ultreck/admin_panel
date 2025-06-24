@@ -79,14 +79,14 @@ export default function UploadCourseModal({ open, onOpenChange }: UploadCourseMo
         toast({
           title: "Warning",
           description: "URL may not be accessible",
-          variant: "destructive",
+        //   variant: "destructive",
         });
       }
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to validate URL",
-        variant: "destructive",
+        // variant: "destructive",
       });
     } finally {
       setIsValidatingUrl(false);
@@ -107,7 +107,7 @@ export default function UploadCourseModal({ open, onOpenChange }: UploadCourseMo
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : "Failed to upload course",
-        variant: "destructive",
+        // variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);
