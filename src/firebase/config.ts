@@ -1,10 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { 
-  getAuth, 
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut
-} from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+// import { useNavigate } from "react-router-dom";
 import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyCvydMWRc8ACtYWHmhrMu2emvr9EmmZZhA",
@@ -16,12 +12,22 @@ const firebaseConfig = {
   measurementId: "G-YN0EE2BK7N"
 };
 
-// Initialize Firebase
+// ✅ Initialize Firebase app
 const app = initializeApp(firebaseConfig);
+
+// ✅ Initialize Firebase Auth and Provider
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const googleProvider = new GoogleAuthProvider();
+const provider = new GoogleAuthProvider();
 
-// Auth functions
-export const loginWithGoogle = () => signInWithPopup(auth, googleProvider);
-export const logout = () => signOut(auth);
+
+export const loginWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    window.location.href = "/";
+    console.log("✅ Logged in user:", user);
+  } catch (error) {
+    console.error("❌ Google sign-in failed:", error);
+  }
+};
