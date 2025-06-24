@@ -45,7 +45,7 @@ export default function DeleteConfirmationModal({
       toast({
         title: "Error",
         description: error instanceof Error ? error.message : "Failed to delete course",
-        variant: "destructive",
+        // variant: "destructive",
       });
     } finally {
       setIsDeleting(false);
