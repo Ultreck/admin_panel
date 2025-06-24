@@ -140,18 +140,18 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex relative overflow-y-auto min-h-screen bg-gray-50">
       <Sidebar currentView={currentView} onViewChange={setCurrentView} />
 
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 justify-end absolute w-4/5 right-0 overflow-hidden">
         {/* Header */}
-        <header className="bg-white shadow-sm border-b border-gray-200">
+        <header className="bg-white top-0 sticky w-full z-20 shadow-sm border-b border-gray-200">
           <div className="px-6 py-4">
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-semibold text-gray-900">
                 {currentView === "courses" ? "Course Management" : "Dashboard"}
               </h1>
-              <div className="flex items-center space-x-4">
+              <div className="flex bg-white items-center space-x-4">
                 <Button variant="ghost" size="icon">
                   <FaBell className="h-4 w-4" />
                 </Button>
@@ -165,9 +165,9 @@ export default function Dashboard() {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 min-h-screen overflow-y-auto p-6">
+        <main className="flex-1 min-h-screen overflow-y-auto p-6 ">
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 pt-24">
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center">
@@ -242,7 +242,7 @@ export default function Dashboard() {
           </div>
 
           {/* Search and Filter */}
-          <Card className="mb-6">
+          <Card className="mb-6 ">
             <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1 relative border-gray-500 rounded-lg">

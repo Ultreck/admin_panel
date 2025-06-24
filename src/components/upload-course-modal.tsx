@@ -149,9 +149,9 @@ export default function UploadCourseModal({ open, onOpenChange }: UploadCourseMo
                           <SelectValue placeholder="Select Semester" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent className="bg-white">
                         {semesters.map((semester) => (
-                          <SelectItem key={semester.value} value={semester.value}>
+                          <SelectItem className="hover:bg-gray-50" key={semester.value} value={semester.value}>
                             {semester.label}
                           </SelectItem>
                         ))}

@@ -21,7 +21,7 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
   ];
 
   return (
-    <div className="w-64 bg-white shadow-sm border-r border-gray-200 flex flex-col">
+    <div className="w-1/5 min-h-screen bg-white fixed shadow-sm border-r border-gray-200 flex flex-col">
       <div className="flex items-center justify-center h-16 border-b border-gray-200">
         <FaPills className="text-primary text-2xl mr-2" />
         <span className="text-xl font-semibold text-gray-900">Admin Panel</span>
