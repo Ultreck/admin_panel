@@ -25,14 +25,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Sidebar from "@/components/sidebar";
 import UploadCourseModal from "@/components/upload-course-modal";
 import DeleteConfirmationModal from "@/components/delete-confirmation-modal";
-import { 
-  FaBook, 
-  FaCalendar, 
-  FaFilePdf, 
-  FaClock, 
-  FaSearch, 
-  FaFilter, 
-  FaPlus, 
+import {
+  FaBook,
+  FaCalendar,
+  FaFilePdf,
+  FaClock,
+  FaSearch,
+  FaFilter,
+  FaPlus,
   FaBell,
   FaEye,
   FaEdit,
@@ -40,7 +40,7 @@ import {
   FaPills,
   FaMicroscope,
   FaFlask,
-  FaCheck
+  FaCheck,
 } from "react-icons/fa";
 import type { Course } from "@/data/mockData";
 
@@ -50,11 +50,14 @@ export default function Dashboard() {
   const [semesterFilter, setSemesterFilter] = useState("");
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [courseToDelete, setCourseToDelete] = useState<{ id: number; name: string } | null>(null);
-  
+  const [courseToDelete, setCourseToDelete] = useState<{
+    id: number;
+    name: string;
+  } | null>(null);
+
   const { toast } = useToast();
-  const { user, isAuthenticated, isLoading } = useMockAuth();
-  const { courses, isLoading: coursesLoading, deleteCourse } = useMockCourses();
+  const { isAuthenticated, isLoading } = useMockAuth();
+  const { courses, isLoading: coursesLoading } = useMockCourses();
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -72,49 +75,56 @@ export default function Dashboard() {
   };
 
   const filteredCourses = courses.filter((course: Course) => {
-    const matchesSearch = course.subjectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         course.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesSemester = !semesterFilter || semesterFilter === "all" || course.semester === semesterFilter;
+    const matchesSearch =
+      course.subjectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSemester =
+      !semesterFilter ||
+      semesterFilter === "all" ||
+      course.semester === semesterFilter;
     return matchesSearch && matchesSemester;
   });
 
   const stats = {
     totalCourses: courses.length,
-    activeSemesters: [...new Set(courses.map((c: Course) => c.semester))].length,
-    pdfMaterials: courses.filter((c: Course) => c.fileUrl.toLowerCase().includes('.pdf')).length,
-    lastUpdated: courses.length > 0 ? "2 hours ago" : "Never"
+    activeSemesters: [...new Set(courses.map((c: Course) => c.semester))]
+      .length,
+    pdfMaterials: courses.filter((c: Course) =>
+      c.fileUrl.toLowerCase().includes(".pdf")
+    ).length,
+    lastUpdated: courses.length > 0 ? "2 hours ago" : "Never",
   };
 
   const getCourseIcon = (subjectName: string) => {
     const name = subjectName.toLowerCase();
-    if (name.includes('pharmacology') || name.includes('pharmacy')) return FaPills;
-    if (name.includes('chemistry')) return FaMicroscope;
-    if (name.includes('clinical')) return FaFlask;
+    if (name.includes("pharmacology") || name.includes("pharmacy"))
+      return FaPills;
+    if (name.includes("chemistry")) return FaMicroscope;
+    if (name.includes("clinical")) return FaFlask;
     return FaBook;
   };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'active':
+      case "active":
         return (
           <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
             <FaCheck className="mr-1 h-3 w-3" />
             Active
           </Badge>
         );
-      case 'draft':
+      case "draft":
         return (
-          <Badge variant="outline" className="bg-yellow-100 text-yellow-800 border-yellow-300">
+          <Badge
+            variant="outline"
+            className="bg-yellow-100 text-yellow-800 border-yellow-300"
+          >
             <FaClock className="mr-1 h-3 w-3" />
             Draft
           </Badge>
         );
       default:
-        return (
-          <Badge variant="secondary">
-            {status}
-          </Badge>
-        );
+        return <Badge variant="secondary">{status}</Badge>;
     }
   };
 
@@ -132,7 +142,7 @@ export default function Dashboard() {
   return (
     <div className="flex h-screen bg-gray-50">
       <Sidebar currentView={currentView} onViewChange={setCurrentView} />
-      
+
       <div className="flex-1 overflow-hidden">
         {/* Header */}
         <header className="bg-white shadow-sm border-b border-gray-200">
@@ -165,13 +175,17 @@ export default function Dashboard() {
                     <FaBook className="text-primary h-5 w-5" />
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600">Total Courses</p>
-                    <p className="text-2xl font-semibold text-gray-900">{stats.totalCourses}</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Total Courses
+                    </p>
+                    <p className="text-2xl font-semibold text-gray-900">
+                      {stats.totalCourses}
+                    </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center">
@@ -179,8 +193,12 @@ export default function Dashboard() {
                     <FaCalendar className="text-green-600 h-5 w-5" />
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600">Active Semesters</p>
-                    <p className="text-2xl font-semibold text-gray-900">{stats.activeSemesters}</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Active Semesters
+                    </p>
+                    <p className="text-2xl font-semibold text-gray-900">
+                      {stats.activeSemesters}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -193,8 +211,12 @@ export default function Dashboard() {
                     <FaFilePdf className="text-yellow-600 h-5 w-5" />
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600">PDF Materials</p>
-                    <p className="text-2xl font-semibold text-gray-900">{stats.pdfMaterials}</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      PDF Materials
+                    </p>
+                    <p className="text-2xl font-semibold text-gray-900">
+                      {stats.pdfMaterials}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -207,8 +229,12 @@ export default function Dashboard() {
                     <FaClock className="text-purple-600 h-5 w-5" />
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600">Last Updated</p>
-                    <p className="text-sm font-semibold text-gray-900">{stats.lastUpdated}</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Last Updated
+                    </p>
+                    <p className="text-sm font-semibold text-gray-900">
+                      {stats.lastUpdated}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -229,7 +255,10 @@ export default function Dashboard() {
                   />
                 </div>
                 <div className="flex gap-4">
-                  <Select value={semesterFilter} onValueChange={setSemesterFilter}>
+                  <Select
+                    value={semesterFilter}
+                    onValueChange={setSemesterFilter}
+                  >
                     <SelectTrigger className="w-48">
                       <SelectValue placeholder="All Semesters" />
                     </SelectTrigger>
@@ -257,10 +286,12 @@ export default function Dashboard() {
           {/* Courses Table */}
           <Card>
             <div className="px-6 py-4 border-b border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Course Materials</h3>
+              <h3 className="text-lg font-medium text-gray-900">
+                Course Materials
+              </h3>
             </div>
-            
-            <div className="overflow-x-auto">
+
+            <div className="overflow-y-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -284,17 +315,27 @@ export default function Dashboard() {
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                        <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                        <TableCell>
+                          <Skeleton className="h-4 w-20" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="h-4 w-16" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="h-4 w-20" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="h-4 w-24" />
+                        </TableCell>
                       </TableRow>
                     ))
                   ) : filteredCourses.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={5} className="text-center py-8">
                         <div className="text-gray-500">
-                          {searchTerm || semesterFilter ? "No courses match your filters" : "No courses found"}
+                          {searchTerm || semesterFilter
+                            ? "No courses match your filters"
+                            : "No courses found"}
                         </div>
                       </TableCell>
                     </TableRow>
@@ -311,13 +352,20 @@ export default function Dashboard() {
                                 </div>
                               </div>
                               <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">{course.subjectName}</div>
-                                <div className="text-sm text-gray-500">{course.description}</div>
+                                <div className="text-sm font-medium text-gray-900">
+                                  {course.subjectName}
+                                </div>
+                                <div className="text-sm text-gray-500">
+                                  {course.description}
+                                </div>
                               </div>
                             </div>
                           </TableCell>
                           <TableCell>
-                            <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-300">
+                            <Badge
+                              variant="outline"
+                              className="bg-blue-100 text-blue-800 border-blue-300"
+                            >
                               Semester {course.semester}
                             </Badge>
                           </TableCell>
@@ -365,7 +413,13 @@ export default function Dashboard() {
             <div className="bg-gray-50 px-6 py-3 border-t border-gray-200">
               <div className="flex items-center justify-between">
                 <div className="text-sm text-gray-700">
-                  Showing <span className="font-medium">1</span> to <span className="font-medium">{Math.min(filteredCourses.length, 10)}</span> of <span className="font-medium">{filteredCourses.length}</span> results
+                  Showing <span className="font-medium">1</span> to{" "}
+                  <span className="font-medium">
+                    {Math.min(filteredCourses.length, 10)}
+                  </span>{" "}
+                  of{" "}
+                  <span className="font-medium">{filteredCourses.length}</span>{" "}
+                  results
                 </div>
                 <div className="flex items-center space-x-2">
                   <Button variant="outline" size="sm" disabled>
@@ -387,7 +441,7 @@ export default function Dashboard() {
         open={uploadModalOpen}
         onOpenChange={setUploadModalOpen}
       />
-      
+
       <DeleteConfirmationModal
         open={deleteModalOpen}
         onOpenChange={setDeleteModalOpen}
