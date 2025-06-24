@@ -61,7 +61,6 @@ export default function Dashboard() {
       toast({
         title: "Please sign in",
         description: "You need to sign in to access the dashboard",
-        variant: "destructive",
       });
       return;
     }
