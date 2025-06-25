@@ -5,6 +5,9 @@ import { Navigate } from "react-router-dom";
 export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { user, loading } = useAuth();
 
+  console.log("👤 ProtectedRoute user:", user, loading);
+  
+
   if (loading) return <p>Loading...</p>;
 
   return user ? children : <Navigate to="/" />;

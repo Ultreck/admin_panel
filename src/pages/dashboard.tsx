@@ -85,7 +85,7 @@ export default function Dashboard() {
     (async () => {
       const data = await getCoursesByUser(user?.uid || "");
       // Ensure each item matches the Course type
-      console.log(data);
+      // console.log(data);
       
       const courses: Course[] = data.map((item: any) => ({
         id: item.id,
@@ -99,7 +99,7 @@ export default function Dashboard() {
         createdBy: item.createdBy,
         // add any other Course fields as needed
     }));
-    console.log(courses);
+    // console.log(courses);
       setCourses(courses);
     })();
   }, [loading, user]);
