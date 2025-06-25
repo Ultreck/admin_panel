@@ -44,7 +44,7 @@ import {
 } from "react-icons/fa";
 import type { Course } from "@/data/mockData";
 import { useAuth } from "../hooks/useAuth";
-import { getCourses } from "../services/courseService";
+import { getCoursesByUser } from "../services/courseService";
 import { Avatar } from "@radix-ui/react-avatar";
 
 
@@ -77,29 +77,51 @@ export default function Dashboard() {
     }
   }, [isAuthenticated, isLoading, toast]);
 
-   const { user } = useAuth();
+   const { user, loading } = useAuth();
   const [courses, setCourses] = useState<Course[]>([]);
-
   useEffect(() => {
-    if (user) {
-      getCourses(user.uid).then((data) => {
-        // Ensure the returned data matches the Course type
-        const courses: Course[] = data.map((item: any) => ({
-          id: item.id,
-          semester: item.semester,
-          subjectName: item.subjectName,
-          description: item.description,
-          fileUrl: item.fileUrl,
-          status: item.status,
-          updatedAt: item.updatedAt,
-          createdAt: item.createdAt, // Ensure this exists in your data
-          createdBy: item.createdBy, // Ensure this exists in your data
-          // add any other Course fields as needed
-        }));
-        setCourses(courses);
-      });
-    }
-  }, [user]);
+    (async () => {
+      const data = await getCoursesByUser(user?.uid || "");
+      // Ensure each item matches the Course type
+      console.log(data);
+      
+      const courses: Course[] = data.map((item: any) => ({
+        id: item.id,
+        semester: item.semester,
+        subjectName: item.subjectName,
+        description: item.description,
+        fileUrl: item.fileUrl,
+        status: item.status,
+        updatedAt: item.updatedAt,
+        createdAt: item.createdAt,
+        createdBy: item.createdBy,
+        // add any other Course fields as needed
+    }));
+    console.log(courses);
+      setCourses(courses);
+    })();
+  }, [loading]);
+
+//   useEffect(() => {
+//     if (user) {
+//       getCourses(user.uid).then((data) => {
+//         // Ensure the returned data matches the Course type
+//         const courses: Course[] = data.map((item: any) => ({
+//           id: item.id,
+//           semester: item.semester,
+//           subjectName: item.subjectName,
+//           description: item.description,
+//           fileUrl: item.fileUrl,
+//           status: item.status,
+//           updatedAt: item.updatedAt,
+//           createdAt: item.createdAt, // Ensure this exists in your data
+//           createdBy: item.createdBy, // Ensure this exists in your data
+//           // add any other Course fields as needed
+//         }));
+//         setCourses(courses);
+//       });
+//     }
+//   }, [user]);
 
   const handleDeleteCourse = (course: Course) => {
     setCourseToDelete({ id: course.id, name: course.subjectName });

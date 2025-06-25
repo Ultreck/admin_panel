@@ -10,9 +10,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
-
   const currentUser = useAuthUser();
-  console.log("Current User:", currentUser);
 
   const menuItems = [
     { id: "courses", label: "Course Management", icon: FaBook },
@@ -26,7 +24,7 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
         <FaPills className="text-primary text-2xl mr-2" />
         <span className="text-xl font-semibold text-gray-900">Admin Panel</span>
       </div>
-      
+
       <nav className="mt-8 flex-1">
         <div className="px-4 space-y-2">
           {menuItems.map((item) => (

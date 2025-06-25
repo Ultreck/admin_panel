@@ -7,7 +7,8 @@ import {
   addDoc,
   doc,
   updateDoc,
-  deleteDoc
+  deleteDoc,
+  Timestamp
 } from "firebase/firestore";
 
 // Define the Course interface
@@ -18,18 +19,37 @@ export interface Course {
   createdBy: string;
   // Add other fields as needed
 }
-
-export const getCourses = async (userId: string) => {
-  const q = query(
-    collection(db, "courses"),
-    where("createdBy", "==", userId)
-  );
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+export interface CourseData {
+  semester: string;
+  subjectName: string;
+  description: string;
+  fileUrl: string;
+  createdBy: string;
+  status: string;
 };
 
-export const createCourse = async (course: Omit<Course, 'id'>) => {
-  return await addDoc(collection(db, "courses"), course);
+export const getCoursesByUser = async (uid: string) => {
+  const q = query(collection(db, "courses"), where("createdBy", "==", uid));
+  const snapshot = await getDocs(q);
+
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+};
+
+export const createCourse = async (data: CourseData) => {
+  try {
+    const docRef = await addDoc(collection(db, "courses"), {
+      ...data,
+      createdAt: Timestamp.now(),
+    });
+    console.log("✅ Course created with ID:", docRef.id);
+    return docRef.id;
+  } catch (error) {
+    console.error("❌ Error adding course:", error);
+    throw error;
+  }
 };
 
 export const updateCourse = async (id: string, updates: Partial<Course>) => {

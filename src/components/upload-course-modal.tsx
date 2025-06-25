@@ -26,10 +26,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-// import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
-import { useMockCourses } from "@/hooks/useMockCourses";
 import { FaCloudUploadAlt, FaCheck, FaSpinner } from "react-icons/fa";
+import { createCourse } from "@/services/courseService";
+import { useAuth } from "@/hooks/useAuth";
 
 const courseSchema = z.object({
   semester: z.string().min(1, "Semester is required"),
@@ -50,7 +50,8 @@ export default function UploadCourseModal({ open, onOpenChange }: UploadCourseMo
   const [isValidatingUrl, setIsValidatingUrl] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const { createCourse } = useMockCourses();
+   const { user, setLoading } = useAuth();
+   
 
   const form = useForm<CourseFormData>({
     resolver: zodResolver(courseSchema),
@@ -95,8 +96,16 @@ export default function UploadCourseModal({ open, onOpenChange }: UploadCourseMo
 
   const onSubmit = async (data: CourseFormData) => {
     setIsSubmitting(true);
+    const formData = {
+        ...data,
+        createdBy: user?.uid || "anonymous",
+    };
+    
     try {
-      await createCourse(data);
+      await createCourse({
+        ...formData
+      });
+      setLoading(true);
       toast({
         title: "Success",
         description: "Course uploaded successfully!",
