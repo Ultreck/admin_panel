@@ -2,19 +2,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FaPills, FaSpinner } from "react-icons/fa";
-import { useMockAuth } from "@/hooks/useMockAuth";
 import { loginWithGoogle } from "../firebase/config";
 
 export default function Landing() {
-  const { login } = useMockAuth();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
-
-  const handleLogin = async () => {
-    setIsLoggingIn(true);
-    await login();
-    setIsLoggingIn(false);
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-md w-full space-y-8">

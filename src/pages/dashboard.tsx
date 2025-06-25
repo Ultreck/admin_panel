@@ -100,28 +100,7 @@ export default function Dashboard() {
     console.log(courses);
       setCourses(courses);
     })();
-  }, [loading]);
-
-//   useEffect(() => {
-//     if (user) {
-//       getCourses(user.uid).then((data) => {
-//         // Ensure the returned data matches the Course type
-//         const courses: Course[] = data.map((item: any) => ({
-//           id: item.id,
-//           semester: item.semester,
-//           subjectName: item.subjectName,
-//           description: item.description,
-//           fileUrl: item.fileUrl,
-//           status: item.status,
-//           updatedAt: item.updatedAt,
-//           createdAt: item.createdAt, // Ensure this exists in your data
-//           createdBy: item.createdBy, // Ensure this exists in your data
-//           // add any other Course fields as needed
-//         }));
-//         setCourses(courses);
-//       });
-//     }
-//   }, [user]);
+  }, [loading, user]);
 
   const handleDeleteCourse = (course: Course) => {
     setCourseToDelete({ id: course.id, name: course.subjectName });

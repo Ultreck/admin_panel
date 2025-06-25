@@ -102,10 +102,10 @@ export default function UploadCourseModal({ open, onOpenChange }: UploadCourseMo
     };
     
     try {
+        setLoading(true);
       await createCourse({
         ...formData
       });
-      setLoading(true);
       toast({
         title: "Success",
         description: "Course uploaded successfully!",
