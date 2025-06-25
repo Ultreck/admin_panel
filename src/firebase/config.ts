@@ -1,15 +1,23 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-// import { useNavigate } from "react-router-dom";
 import { getFirestore } from "firebase/firestore";
+
+const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
+const authDomain = import.meta.env.VITE_FIREBASE_AUTH_DOMAIN;
+const projectId = import.meta.env.VITE_FIREBASE_PROJECT_ID;
+const storageBucket = import.meta.env.VITE_FIREBASE_STORAGE_BUCKET;
+const messagingSenderId = import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID;
+const appId = import.meta.env.VITE_FIREBASE_APP_ID;
+const measurementId = import.meta.env.VITE_FIREBASE_MEASUREMENT_ID;
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCvydMWRc8ACtYWHmhrMu2emvr9EmmZZhA",
-  authDomain: "adming-panel-c0d51.firebaseapp.com",
-  projectId: "adming-panel-c0d51",
-  storageBucket: "adming-panel-c0d51.firebasestorage.app",
-  messagingSenderId: "1087891109119",
-  appId: "1:1087891109119:web:6d235e37283fea88e788ca",
-  measurementId: "G-YN0EE2BK7N"
+  apiKey: apiKey,
+  authDomain: authDomain,
+  projectId: projectId,
+  storageBucket: storageBucket,
+  messagingSenderId: messagingSenderId,
+  appId: appId,
+  measurementId: measurementId
 };
 
 // ✅ Initialize Firebase app
