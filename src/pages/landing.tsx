@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FaPills, FaSpinner } from "react-icons/fa";
 import { loginWithGoogle } from "../firebase/config";
-
+import { FcGoogle } from "react-icons/fc";
 export default function Landing() {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   return (
@@ -17,13 +17,13 @@ export default function Landing() {
         
         <Card>
           <CardContent className="pt-6">
-            <div className="space-y-6">
+            <div className="space-y-6 ">
               <Button 
                 onClick={() => {
                     loginWithGoogle();
                   setIsLoggingIn(true);
                 }}
-                className="w-full"
+                className="w-full bg-gray-100"
                 size="lg"
                 disabled={isLoggingIn}
               >
@@ -33,7 +33,10 @@ export default function Landing() {
                     Signing in...
                   </>
                 ) : (
-                  "Sign in to Dashboard"
+                  <>
+                  <FcGoogle className="mr-2 h-4 w-4" />
+                  Signing in with Google
+                 </>
                 )}
               </Button>
               
