@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useMockAuth } from "@/hooks/useMockAuth";
 import { useMockCourses } from "@/hooks/useMockCourses";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -59,8 +58,7 @@ export default function Dashboard() {
     name: string;
   } | null>(null);
 
-  const { toast } = useToast();
-  const { isAuthenticated, isLoading } = useMockAuth();
+  const { isLoading } = useMockAuth();
   const { 
     // courses, 
     isLoading: 
