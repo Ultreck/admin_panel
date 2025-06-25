@@ -7,18 +7,19 @@ import Landing from "@/pages/landing";
 import Dashboard from "@/pages/dashboard";
 import NotFound from "@/pages/not-found";
 import { Toaster } from "./components/ui/toaster";
+import { ProtectedRoute } from "./routes/ProtectedRoute";
 // import { Login } from "./pages/Login";
 
 function Router() {
-
   return (
     <Switch>
+      <Route path="/" component={Landing} />
+      <Route path="/dashboard">
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      </Route>
 
-        <Route path="/" component={Landing} />
-        <>
-          <Route path="/dashboard" component={Dashboard} />
-          {/* <Route path="/login" component={Login} /> */}
-        </>
       <Route component={NotFound} />
     </Switch>
   );

@@ -28,7 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { FaCloudUploadAlt, FaCheck, FaSpinner } from "react-icons/fa";
-import { createCourse } from "@/services/courseService";
+import { createCourse, updateCourse } from "@/services/courseService";
 import { useAuth } from "@/hooks/useAuth";
 
 const courseSchema = z.object({
@@ -36,7 +36,7 @@ const courseSchema = z.object({
   subjectName: z.string().min(1, "Subject name is required"),
   description: z.string().min(1, "Description is required"),
   fileUrl: z.string().url("Please enter a valid URL"),
-  status: z.enum(['active', 'draft', 'archived']).default('active'),
+  status: z.enum(["active", "draft", "archived"]).default("active"),
 });
 
 type CourseFormData = z.infer<typeof courseSchema>;
@@ -44,16 +44,20 @@ type CourseFormData = z.infer<typeof courseSchema>;
 interface UploadCourseModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  type?: string; 
+  type?: string;
   course?: any; // You can replace 'any' with a more specific type if available
 }
 
-export default function UploadCourseModal({ open, onOpenChange, type, course }: UploadCourseModalProps) {
+export default function UploadCourseModal({
+  open,
+  onOpenChange,
+  type,
+  course,
+}: UploadCourseModalProps) {
   const [isValidatingUrl, setIsValidatingUrl] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-   const { user, setLoading } = useAuth();
-   
+  const { user, setLoading } = useAuth();
 
   const form = useForm<CourseFormData>({
     resolver: zodResolver(courseSchema),
@@ -66,17 +70,15 @@ export default function UploadCourseModal({ open, onOpenChange, type, course }: 
     },
   });
 
-  console.log(type);
   useEffect(() => {
-    
-   if(type === 'edit') {
+    if (type === "edit") {
       form.setValue("semester", course.semester);
       form.setValue("subjectName", course.subjectName);
       form.setValue("description", course.description);
       form.setValue("fileUrl", course.fileUrl);
     }
-  }, [])
-  
+  }, [course]);
+
   const validateUrl = async () => {
     const url = form.getValues("fileUrl");
     if (!url) return;
@@ -93,7 +95,7 @@ export default function UploadCourseModal({ open, onOpenChange, type, course }: 
         toast({
           title: "Warning",
           description: "URL may not be accessible",
-        //   variant: "destructive",
+          //   variant: "destructive",
         });
       }
     } catch (error) {
@@ -110,25 +112,35 @@ export default function UploadCourseModal({ open, onOpenChange, type, course }: 
   const onSubmit = async (data: CourseFormData) => {
     setIsSubmitting(true);
     const formData = {
-        ...data,
-        createdBy: user?.uid || "anonymous",
+      ...data,
+      createdBy: user?.uid || "anonymous",
     };
-    
+
     try {
-        setLoading(true);
-      await createCourse({
-        ...formData
-      });
-      toast({
+      setLoading(true);
+      if(type === 'edit'){
+        await updateCourse(course.id, formData);
+          toast({
         title: "Success",
-        description: "Course uploaded successfully!",
+        description: "Course updated successfully!",
       });
+      }else {
+          await createCourse({
+            ...formData,
+          });
+          toast({
+            title: "Success",
+            description: "Course uploaded successfully!",
+          });
+
+      }
       onOpenChange(false);
       form.reset();
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to upload course",
+        description:
+          error instanceof Error ? error.message : "Failed to upload course",
         // variant: "destructive",
       });
     } finally {
@@ -151,9 +163,11 @@ export default function UploadCourseModal({ open, onOpenChange, type, course }: 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] bg-white overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{type === 'edit'? "Edit course" : "Add New Course"}</DialogTitle>
+          <DialogTitle>
+            {type === "edit" ? "Edit course" : "Add New Course"}
+          </DialogTitle>
         </DialogHeader>
-        
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -165,7 +179,10 @@ export default function UploadCourseModal({ open, onOpenChange, type, course }: 
                     <FormLabel>
                       Semester <span className="text-red-500">*</span>
                     </FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select Semester" />
@@ -173,7 +190,11 @@ export default function UploadCourseModal({ open, onOpenChange, type, course }: 
                       </FormControl>
                       <SelectContent className="bg-white">
                         {semesters.map((semester) => (
-                          <SelectItem className="hover:bg-gray-50" key={semester.value} value={semester.value}>
+                          <SelectItem
+                            className="hover:bg-gray-50"
+                            key={semester.value}
+                            value={semester.value}
+                          >
                             {semester.label}
                           </SelectItem>
                         ))}
@@ -252,7 +273,8 @@ export default function UploadCourseModal({ open, onOpenChange, type, course }: 
                   </div>
                   <FormMessage />
                   <p className="text-sm text-gray-500">
-                    Ensure the URL is publicly accessible and points to a valid PDF or document file.
+                    Ensure the URL is publicly accessible and points to a valid
+                    PDF or document file.
                   </p>
                 </FormItem>
               )}
@@ -267,7 +289,9 @@ export default function UploadCourseModal({ open, onOpenChange, type, course }: 
                   </span>
                   <span> or drag and drop</span>
                 </div>
-                <p className="text-xs text-gray-500">PDF, DOC, DOCX up to 10MB</p>
+                <p className="text-xs text-gray-500">
+                  PDF, DOC, DOCX up to 10MB
+                </p>
               </div>
             </div>
 
@@ -279,10 +303,7 @@ export default function UploadCourseModal({ open, onOpenChange, type, course }: 
               >
                 Cancel
               </Button>
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-              >
+              <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? (
                   <>
                     <FaSpinner className="mr-2 h-4 w-4 animate-spin" />
