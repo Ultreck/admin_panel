@@ -67,16 +67,6 @@ export default function Dashboard() {
     coursesLoading 
 } = useMockCourses();
 
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      toast({
-        title: "Please sign in",
-        description: "You need to sign in to access the dashboard",
-      });
-      return;
-    }
-  }, [isAuthenticated, isLoading, toast]);
-
    const { user, loading } = useAuth();
   const [courses, setCourses] = useState<Course[]>([]);
   const [actionType, setActionType] = useState("create");
