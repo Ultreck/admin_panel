@@ -200,7 +200,7 @@ export default function Dashboard() {
         {/* Main Content */}
         <main className="flex-1 min-h-screen overflow-y-auto p-6 ">
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 pt-24">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8 pt-24">
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center">
