@@ -10,8 +10,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
-import { useMockCourses } from "@/hooks/useMockCourses";
 import { FaSpinner } from "react-icons/fa";
+import { deleteCourse } from "@/services/courseService";
 
 interface DeleteConfirmationModalProps {
   open: boolean;
@@ -28,14 +28,14 @@ export default function DeleteConfirmationModal({
 }: DeleteConfirmationModalProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast();
-  const { deleteCourse } = useMockCourses();
+ 
 
   const handleDelete = async () => {
     if (!courseId) return;
     
     setIsDeleting(true);
     try {
-      await deleteCourse(courseId);
+      await deleteCourse(courseId.toString());
       toast({
         title: "Success",
         description: "Course deleted successfully!",

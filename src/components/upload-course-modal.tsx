@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -44,9 +44,11 @@ type CourseFormData = z.infer<typeof courseSchema>;
 interface UploadCourseModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  type?: string; 
+  course?: any; // You can replace 'any' with a more specific type if available
 }
 
-export default function UploadCourseModal({ open, onOpenChange }: UploadCourseModalProps) {
+export default function UploadCourseModal({ open, onOpenChange, type, course }: UploadCourseModalProps) {
   const [isValidatingUrl, setIsValidatingUrl] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -64,6 +66,17 @@ export default function UploadCourseModal({ open, onOpenChange }: UploadCourseMo
     },
   });
 
+  console.log(type);
+  useEffect(() => {
+    
+   if(type === 'edit') {
+      form.setValue("semester", course.semester);
+      form.setValue("subjectName", course.subjectName);
+      form.setValue("description", course.description);
+      form.setValue("fileUrl", course.fileUrl);
+    }
+  }, [])
+  
   const validateUrl = async () => {
     const url = form.getValues("fileUrl");
     if (!url) return;
@@ -138,7 +151,7 @@ export default function UploadCourseModal({ open, onOpenChange }: UploadCourseMo
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] bg-white overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Add New Course</DialogTitle>
+          <DialogTitle>{type === 'edit'? "Edit course" : "Add New Course"}</DialogTitle>
         </DialogHeader>
         
         <Form {...form}>

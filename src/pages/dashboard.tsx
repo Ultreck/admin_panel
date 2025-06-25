@@ -79,6 +79,8 @@ export default function Dashboard() {
 
    const { user, loading } = useAuth();
   const [courses, setCourses] = useState<Course[]>([]);
+  const [actionType, setActionType] = useState("create");
+  const [currentId, setCurrentId] = useState<Course | undefined>(undefined);
   useEffect(() => {
     (async () => {
       const data = await getCoursesByUser(user?.uid || "");
@@ -334,7 +336,7 @@ export default function Dashboard() {
               </h3>
             </div>
 
-            <div className="overflow-y-auto min-h-screen">
+            <div className="overflow-y-auto ">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -430,6 +432,10 @@ export default function Dashboard() {
                               <Button
                                 variant="ghost"
                                 size="sm"
+                                 onClick={() => {
+                                    setUploadModalOpen(true);
+                                    setActionType("edit");
+                                    setCurrentId(course);}}
                                 className="text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                               >
                                 <FaEdit className="h-4 w-4" />
@@ -483,6 +489,8 @@ export default function Dashboard() {
       <UploadCourseModal
         open={uploadModalOpen}
         onOpenChange={setUploadModalOpen}
+        type={actionType}
+        course={currentId}
       />
 
       <DeleteConfirmationModal
