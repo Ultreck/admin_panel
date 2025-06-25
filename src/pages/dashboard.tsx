@@ -163,7 +163,7 @@ export default function Dashboard() {
     }
   };
 
-  if (isLoading || !isAuthenticated) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
