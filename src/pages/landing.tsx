@@ -35,7 +35,7 @@ export default function Landing() {
                 ) : (
                   <>
                   <FcGoogle className="mr-2 h-4 w-4" />
-                  Signing in with Google
+                  Sign in with Google
                  </>
                 )}
               </Button>

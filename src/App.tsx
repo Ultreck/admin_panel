@@ -8,7 +8,7 @@ import { Toaster } from "./components/ui/toaster";
 import Landing from "@/pages/landing";
 import Dashboard from "@/pages/dashboard";
 import NotFound from "@/pages/not-found";
-import { ProtectedRoute } from "./routes/ProtectedRoute";
+// import { ProtectedRoute } from "./routes/ProtectedRoute";
 
 function App() {
   return (
@@ -21,9 +21,9 @@ function App() {
             <Route
               path="/dashboard"
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
                   <Dashboard />
-                </ProtectedRoute>
+                // </ProtectedRoute>
               }
             />
             <Route path="*" element={<NotFound />} />
