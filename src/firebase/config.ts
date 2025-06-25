@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 // import { useNavigate } from "react-router-dom";
 import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
@@ -25,9 +25,19 @@ export const loginWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    window.location.href = "/";
+    window.location.href = "/dashboard";
     console.log("✅ Logged in user:", user);
-  } catch (error) {
+} catch (error) {
     console.error("❌ Google sign-in failed:", error);
+}
+};
+
+export const logout = async () => {
+  try {
+      await signOut(auth);
+      console.log("✅ Logged out successfully");
+      window.location.href = "/";
+  } catch (error) {
+    console.error("❌ Logout error", error);
   }
 };

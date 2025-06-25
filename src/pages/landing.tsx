@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FaPills, FaSpinner } from "react-icons/fa";
 import { useMockAuth } from "@/hooks/useMockAuth";
+import { loginWithGoogle } from "../firebase/config";
 
 export default function Landing() {
   const { login } = useMockAuth();
@@ -27,7 +28,10 @@ export default function Landing() {
           <CardContent className="pt-6">
             <div className="space-y-6">
               <Button 
-                onClick={handleLogin}
+                onClick={() => {
+                    loginWithGoogle();
+                  setIsLoggingIn(true);
+                }}
                 className="w-full"
                 size="lg"
                 disabled={isLoggingIn}

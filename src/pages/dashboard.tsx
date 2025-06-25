@@ -45,6 +45,7 @@ import {
 import type { Course } from "@/data/mockData";
 import { useAuth } from "../hooks/useAuth";
 import { getCourses } from "../services/courseService";
+import { Avatar } from "@radix-ui/react-avatar";
 
 
 export default function Dashboard() {
@@ -190,6 +191,16 @@ export default function Dashboard() {
                   <FaPlus className="mr-2 h-4 w-4" />
                   Add Course
                 </Button>
+                <Avatar>
+                    <img
+                        src={user?.photoURL || "/default-avatar.png"}
+                        alt={user?.displayName || "User Avatar"}
+                        className="h-8 w-8 rounded-full"
+                    />
+                    <span className="sr-only">
+                        {user?.displayName || "User Avatar"}
+                    </span>
+                </Avatar>
               </div>
             </div>
           </div>

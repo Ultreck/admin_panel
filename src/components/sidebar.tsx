@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { logout } from "../firebase/config";
 import { FaPills, FaBook, FaUpload, FaCog, FaUser } from "react-icons/fa";
-import { useMockAuth } from "@/hooks/useMockAuth";
+import { useAuthUser } from "@/lib/useAuthUser";
+// import { useMockAuth } from "@/hooks/useMockAuth";
 
 interface SidebarProps {
   currentView: string;
@@ -8,11 +10,9 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
-  const { user, logout } = useMockAuth();
 
-  const handleLogout = () => {
-    logout();
-  };
+  const currentUser = useAuthUser();
+  console.log("Current User:", currentUser);
 
   const menuItems = [
     { id: "courses", label: "Course Management", icon: FaBook },
@@ -56,13 +56,13 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
           </div>
           <div className="ml-3">
             <p className="text-sm font-medium text-gray-900">
-              {user?.firstName || user?.email || "Admin User"}
+              {currentUser?.displayName || currentUser?.email || "Admin User"}
             </p>
             <Button
-              variant="ghost"
+              variant="destructive"
               size="sm"
               className="text-xs text-gray-500 hover:text-gray-700 p-0 h-auto"
-              onClick={handleLogout}
+              onClick={logout}
             >
               Sign out
             </Button>
