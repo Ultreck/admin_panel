@@ -8,6 +8,7 @@ import Dashboard from "@/pages/dashboard";
 import NotFound from "@/pages/not-found";
 import { Toaster } from "./components/ui/toaster";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
+import { BrowserRouter } from "react-router-dom";
 // import { Login } from "./pages/Login";
 
 function Router() {
@@ -30,7 +31,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
+        <BrowserRouter>
         <Router />
+        </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
   );
